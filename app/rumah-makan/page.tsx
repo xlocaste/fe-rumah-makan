@@ -84,11 +84,13 @@ const RumahMakan = () => {
               Data Rumah Makan
             </h1>
             <div className="mb-6">
+            {userRole == "admin" && (
               <Link href="rumah-makan/create">
                 <button className="mr-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
                   Tambah Rumah Makan
                 </button>
               </Link>
+            )}
               <button
                 onClick={logout}
                 className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
@@ -116,20 +118,30 @@ const RumahMakan = () => {
                       </p>
                     </div>
                     <div className="flex space-x-2">
-                    {userRole == "superVisor" && (
+                    {userRole == "admin" && (
                       <Link href={`/rumah-makan/${ItemRumahMakan.id}/edit`}>
                         <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
                           Edit
                         </button>
                       </Link>
                     )}
+                    {userRole == "admin" && (
                       <button
-                        onClick={() => deletePenugasan(ItemRumahMakan.id)}
-                        className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+                      onClick={() => deletePenugasan(ItemRumahMakan.id)}
+                      className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
                       >
                         Hapus dari Daftar
                       </button>
+                    )}
+                    {userRole == "pemilikUsaha" && (
+                        <Link href={`/rumah-makan/${ItemRumahMakan.id}/edit`}>
+                        <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
+                          Menu
+                        </button>
+                      </Link>
+                    )}
                     </div>
+                    
                   </li>
                 ))}
               </ul>
