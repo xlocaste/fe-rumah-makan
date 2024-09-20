@@ -25,7 +25,7 @@ const Login = () => {
       if (role === 'admin') {
         router.push("/rumah-makan"); // Supervisor masuk ke form penugasan
       } else if (role === 'pemilikUsaha') {
-        router.push("/menu"); // Karyawan masuk ke pengumpulan penugasan
+        router.push("/rumah-makan"); // Karyawan masuk ke pengumpulan penugasan
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {
