@@ -46,7 +46,7 @@ const RumahMakan = () => {
       fetchUserData();
 
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/no-unused-expressions
     axios
   }, []);
 
