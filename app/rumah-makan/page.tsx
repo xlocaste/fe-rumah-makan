@@ -133,13 +133,11 @@ const RumahMakan = () => {
                         Hapus dari Daftar
                       </button>
                     )}
-                    {userRole == "pemilikUsaha" && (
                         <Link href={`/rumah-makan/${ItemRumahMakan.id}/menu`}>
                         <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
                           Menu
                         </button>
                       </Link>
-                    )}
                     </div>
                     
                   </li>

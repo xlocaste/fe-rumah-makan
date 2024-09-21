@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 
 interface TableRumahMakan {
     id: number;
@@ -28,12 +28,14 @@ const Menu = () => {
   const [daftarMenu, setDaftarMenu] = useState<DataMenu[]>([]);
   const [userRole, setUserRole] = useState<string | null>(null);
   const router = useRouter();
+  const params = useParams();
   const token = Cookies.get("token");
 
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    const {id} = params
     axios
-      .get("http://localhost:8000/api/menu")
+      .get(`http://localhost:8000/api/rumah-makan/${id}/menu`)
       .then((response) => setDaftarMenu(response.data.data))
       .catch((error) => console.error("Error fetching menu items:", error));
   }, []);
@@ -134,7 +136,7 @@ const Menu = () => {
                     </div>
                     <div className="flex space-x-2">
                     {userRole == "pemilikUsaha" && (
-                      <Link href={`/rumah-makan/${ItemRumahMakan.id}/edit`}>
+                      <Link href={`/rumah-makan/${ItemRumahMakan.rumah_makan.id}/menu/${ItemRumahMakan.id}/edit`}>
                         <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
                           Edit
                         </button>

@@ -32,9 +32,6 @@ const Create = () => {
     }
   };
 
-  //   console.log('daftarPaslon', daftarPaslon);
-  //   console.log('daftarPaslon lenght', daftarPaslon.length);
-
   return (
     <div className="min-h-screen bg-gray-100 py-8 px-4">
       <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-6">
