@@ -23,9 +23,11 @@ const Login = () => {
    
       setMassage('Login successful');
       if (role === 'admin') {
-        router.push("/rumah-makan"); // Supervisor masuk ke form penugasan
+        router.push("/rumah-makan");
       } else if (role === 'pemilikUsaha') {
-        router.push("/rumah-makan"); // Karyawan masuk ke pengumpulan penugasan
+        router.push("/rumah-makan"); 
+      } else if (role === 'pelanggan') {
+        router.push("/rumah-makan"); 
       }
     } catch (error) {
       if (axios.isAxiosError(error)) {

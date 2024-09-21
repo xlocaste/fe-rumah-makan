@@ -7,6 +7,7 @@ import Cookies from "js-cookie";
 const Edit = () => {
   const [nama, setNama] = useState("");
   const [kategori, setKategori] = useState(""); 
+  const [stok, setStok] = useState(""); 
   const token = Cookies.get("token");
   const params = useParams();
   const router = useRouter();
@@ -22,6 +23,7 @@ const Edit = () => {
               const menu = response.data.data;
               setNama(menu.nama);
               setKategori(menu.kategori);
+              setStok(menu.stok);
                 })
             .catch((error) => console.error("Error fetching menu:", error));
           }
@@ -36,6 +38,7 @@ const Edit = () => {
         await axios.put(`http://127.0.0.1:8000/api/rumah-makan/${id}/menu/${menuId}`, {
           nama,
           kategori,
+          stok,
         });
         alert("update data berhasil");
         router.push(`/rumah-makan/${params.id}/menu`);
@@ -83,6 +86,23 @@ const Edit = () => {
                 value={kategori}
                 onChange={(e) => setKategori(e.target.value)}
                 placeholder="Kategori"
+                required
+                className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              />
+            </div>
+            <div>
+              <label
+                className="block text-gray-700 text-sm font-medium mb-1"
+                htmlFor="Code"
+              >
+                Stok
+              </label>
+              <input
+                id="stok"
+                type="number"
+                value={stok}
+                onChange={(e) => setStok(e.target.value)}
+                placeholder="Stok"
                 required
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
               />

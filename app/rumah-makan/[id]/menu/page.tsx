@@ -18,6 +18,7 @@ interface  DataMenu{
     id: number;
     nama: string;
     kategori: string;
+    stok: string;
     rumah_makan_id: string;
     created_at: string;
     updated_at: string;
@@ -132,6 +133,9 @@ const Menu = () => {
                       </p>
                       <p className="text-black">
                         Kategori : {ItemRumahMakan.kategori}
+                      </p>
+                      <p className="text-black">
+                        Stok : {ItemRumahMakan.stok}
                       </p>
                     </div>
                     <div className="flex space-x-2">

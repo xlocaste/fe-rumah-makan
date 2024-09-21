@@ -11,6 +11,7 @@ interface  DataRumahMakan{
   alamat: string;
   jam_buka: string;
   jam_tutup: string;
+  status: string;
   created_at: string;
   updated_at: string;
 }
@@ -46,8 +47,6 @@ const RumahMakan = () => {
       fetchUserData();
 
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    // eslint-disable-next-line react-hooks/exhaustive-deps, @typescript-eslint/no-unused-expressions
-    axios
   }, []);
 
   const logout = async () => {
@@ -115,6 +114,9 @@ const RumahMakan = () => {
                       </p>
                       <p className="text-black">
                         Jam Buka : {ItemRumahMakan.jam_buka} Sampai {ItemRumahMakan.jam_tutup}
+                      </p>
+                      <p className="bg-red-600 rounded-lg">
+                        {ItemRumahMakan.status}
                       </p>
                     </div>
                     <div className="flex space-x-2">

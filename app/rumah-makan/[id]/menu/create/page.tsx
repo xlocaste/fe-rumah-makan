@@ -8,6 +8,7 @@ import Cookies from "js-cookie";
 const Create = ({ params }: { params: { id: string } }) => {
   const [nama, setNama] = useState("");
   const [kategori, setKategori] = useState("");
+  const [stok, setStok] = useState("");
   const token = Cookies.get("token");
   const router = useRouter();
 
@@ -23,6 +24,7 @@ const Create = ({ params }: { params: { id: string } }) => {
       await axios.post("http://localhost:8000/api/menu", {
         nama,
         kategori,
+        stok,
         rumah_makan_id : params.id,
       });
       router.push(`/rumah-makan/${params.id}/menu`);
@@ -71,6 +73,23 @@ const Create = ({ params }: { params: { id: string } }) => {
               value={kategori}
               onChange={(e) => setKategori(e.target.value)}
               placeholder="Kategori"
+              className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+              required
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="kategori"
+              className="block text-gray-700 font-medium mb-1"
+            >
+              Stok
+            </label>
+            <input
+              id="stok"
+              type="number"
+              value={stok}
+              onChange={(e) => setStok(e.target.value)}
+              placeholder="Stok"
               className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
               required
             />
