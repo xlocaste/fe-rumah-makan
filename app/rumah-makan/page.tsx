@@ -1,9 +1,10 @@
 "use client";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Cookies from "js-cookie";
 import { useRouter } from "next/navigation";
+import Layout from "@/components/RumahMakan/Layout";
 
 interface  DataRumahMakan{
   id: number;
@@ -18,17 +19,41 @@ interface  DataRumahMakan{
 
 const RumahMakan = () => {
   const [daftarRumahMakan, setDaftarRumahMakan] = useState<DataRumahMakan[]>([]);
+  const [tutupSementara, setTutupSementara] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
   const router = useRouter();
   const token = Cookies.get("token");
 
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    axios
-      .get("http://localhost:8000/api/rumah-makan")
-      .then((response) => setDaftarRumahMakan(response.data.data))
+    axios.get("http://localhost:8000/api/rumah-makan")
+      .then((response) => {
+        const DataWithStatus = response.data.data.map((item: DataRumahMakan) => {
+          const currentTime = new Date();
+          const openingTime = new Date();
+          const closingTime = new Date();
+
+          const [bukaHour, bukaMinute] = item.jam_buka.split(':').map(Number);
+          const [tutupHour, TutupMinute] = item.jam_tutup.split(':').map(Number);
+
+          openingTime.setHours(bukaHour, bukaMinute, 0);
+          closingTime.setHours(tutupHour, TutupMinute, 0);
+
+          if (tutupSementara) {
+            item.status = 'Tutup Sementara';
+          } else {
+            item.status = (currentTime >= openingTime && currentTime <= closingTime) ? 'Buka' : 'Tutup';
+          }
+          return item;
+        });
+        setDaftarRumahMakan(DataWithStatus);
+      })
       .catch((error) => console.error("Error fetching Rumah Makan items:", error));
-  }, []);
+  }, [tutupSementara]);
+
+  const toggleTutupSementara = () => {
+    setTutupSementara(!tutupSementara);
+  };
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -75,7 +100,9 @@ const RumahMakan = () => {
       .catch((error) => console.error("Error deleting rumah-makan:", error));
     alert("hapus data berhasil");
   };
+
   return (
+    <Layout>
       <div className="min-h-screen bg-gray-100 py-8 px-4">
         <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
           <div className="p-6">
@@ -120,13 +147,11 @@ const RumahMakan = () => {
                       </p>
                     </div>
                     <div className="flex space-x-2">
-                    {userRole == "admin" && (
                       <Link href={`/rumah-makan/${ItemRumahMakan.id}/edit`}>
                         <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
                           Edit
                         </button>
                       </Link>
-                    )}
                     {userRole == "admin" && (
                       <button
                       onClick={() => deletePenugasan(ItemRumahMakan.id)}
@@ -140,6 +165,9 @@ const RumahMakan = () => {
                           Menu
                         </button>
                       </Link>
+                      <button onClick={toggleTutupSementara} className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
+                        {tutupSementara ? 'Buka Kembali' : 'Tutup Sementara'}
+                      </button>
                     </div>
                     
                   </li>
@@ -153,6 +181,7 @@ const RumahMakan = () => {
           </div>
         </div>
       </div>
+    </Layout>
   );
 };
 
