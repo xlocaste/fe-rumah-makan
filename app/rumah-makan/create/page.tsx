@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 import Cookies from "js-cookie";
+import Layout from "@/components/RumahMakan/Layout";
 
 const Create = () => {
   const [nama, setNama] = useState("");
@@ -33,6 +34,7 @@ const Create = () => {
   };
 
   return (
+    <Layout>
     <div className="min-h-screen bg-gray-100 py-8 px-4">
       <div className="max-w-lg mx-auto bg-white shadow-lg rounded-lg overflow-hidden p-6">
         <h1 className="text-3xl font-semibold text-gray-800 mb-6">
@@ -117,6 +119,7 @@ const Create = () => {
         </form>
       </div>
     </div>
+    </Layout>
   );
 };
 

@@ -3,6 +3,7 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import Cookies from "js-cookie";
+import Layout from "@/components/RumahMakan/Layout";
 
 const Edit = () => {
   const [nama, setNama] = useState("");
@@ -56,6 +57,7 @@ const Edit = () => {
   };
 
   return (
+    <Layout>
     <div className="min-h-screen bg-gray-100 py-8 px-4">
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="p-6">
@@ -140,6 +142,7 @@ const Edit = () => {
         </div>
       </div>
     </div>
+    </Layout>
   );
 };
 

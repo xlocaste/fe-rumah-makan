@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import Link from "next/link";
 import Cookies from "js-cookie";
-import { useRouter } from "next/navigation";
 import Layout from "@/components/RumahMakan/Layout";
 
 interface  DataRumahMakan{
@@ -21,7 +20,6 @@ const RumahMakan = () => {
   const [daftarRumahMakan, setDaftarRumahMakan] = useState<DataRumahMakan[]>([]);
   const [tutupSementara, setTutupSementara] = useState(false);
   const [userRole, setUserRole] = useState<string | null>(null);
-  const router = useRouter();
   const token = Cookies.get("token");
 
   useEffect(() => {
@@ -74,23 +72,6 @@ const RumahMakan = () => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }, []);
 
-  const logout = async () => {
-    try {
-      await axios.post('http://localhost:8000/api/logout', {}, {
-        withCredentials: true,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-
-      Cookies.remove("token");
-
-      router.push("/");
-    } catch (error) {
-      console.error("Error during logout:", error);
-    }
-  };
-
   const deletePenugasan = (id: number) => {
     axios
       .delete(`http://localhost:8000/api/rumah-makan/${id}`)
@@ -112,17 +93,11 @@ const RumahMakan = () => {
             <div className="mb-6">
             {userRole == "admin" && (
               <Link href="rumah-makan/create">
-                <button className="mr-4 px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600">
+                <button className="mr-4 px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600">
                   Tambah Rumah Makan
                 </button>
               </Link>
             )}
-              <button
-                onClick={logout}
-                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-              >
-                Logout
-              </button>
             </div>
 
             {daftarRumahMakan.length > 0 ? (
@@ -142,32 +117,32 @@ const RumahMakan = () => {
                       <p className="text-black">
                         Jam Buka : {ItemRumahMakan.jam_buka} Sampai {ItemRumahMakan.jam_tutup}
                       </p>
-                      <p className="bg-red-600 rounded-lg">
+                      <p className="text-white pt-2 pb-2 text-center bg-indigo-600 rounded-lg">
                         {ItemRumahMakan.status}
                       </p>
                     </div>
                     <div className="flex space-x-2">
                       <Link href={`/rumah-makan/${ItemRumahMakan.id}/edit`}>
-                        <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
+                        <button type="button" className="px-4 py-1 border-indigo-600 text-indigo-600  rounded-md hover:bg-indigo-600 hover:text-white">
                           Edit
                         </button>
                       </Link>
-                    {userRole == "admin" && (
-                      <button
-                      onClick={() => deletePenugasan(ItemRumahMakan.id)}
-                      className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
-                      >
-                        Hapus dari Daftar
-                      </button>
-                    )}
                         <Link href={`/rumah-makan/${ItemRumahMakan.id}/menu`}>
-                        <button className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
+                        <button className="px-4 py-1 border-indigo-600 text-indigo-600  rounded hover:bg-indigo-600 hover:text-white">
                           Menu
                         </button>
                       </Link>
-                      <button onClick={toggleTutupSementara} className="px-4 py-2 bg-orange-500 text-white rounded hover:bg-orange-600">
+                      <button onClick={toggleTutupSementara} className="px-4 py-1 border-indigo-600 text-indigo-600  rounded hover:bg-indigo-600 hover:text-white">
                         {tutupSementara ? 'Buka Kembali' : 'Tutup Sementara'}
                       </button>
+                      {userRole == "admin" && (
+                      <button
+                      onClick={() => deletePenugasan(ItemRumahMakan.id)}
+                      className="px-4 py-1 bg-indigo-600 border-indigo-600 text-white rounded hover:bg-indigo-800 hover:text-white"
+                      >
+                        Hapus
+                      </button>
+                      )}
                     </div>
                     
                   </li>
