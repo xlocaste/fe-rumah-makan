@@ -95,36 +95,54 @@ const Menu = () => {
 
             {daftarMenu.length > 0 ? (
               <ul>
-                {daftarMenu.map((ItemRumahMakan) => (
+                {daftarMenu.map((itemRumahMakan) => (
                   <li
-                    key={ItemRumahMakan.id}
+                    key={itemRumahMakan.id}
                     className="bg-gray-50 p-4 mb-4 rounded-lg shadow-sm flex items-center justify-between"
                   >
                     <div className="flex flex-col">
                   <p className="text-black">
-                        Rumah Makan : {ItemRumahMakan.rumah_makan.nama}
+                        Rumah Makan : {itemRumahMakan.rumah_makan.nama}
                       </p>
                       <p className="text-black">
-                        Nama Menu : {ItemRumahMakan.nama}
+                        Nama Menu : {itemRumahMakan.nama}
                       </p>
                       <p className="text-black">
-                        Kategori : {ItemRumahMakan.kategori}
+                        Kategori : {itemRumahMakan.kategori}
                       </p>
-                      <p className="text-black">
-                        Stok : {ItemRumahMakan.stok}
+                      <p className={`px-4 py-2 rounded ${
+                        Number(itemRumahMakan.stok) > 0
+                      ? "text-indigo-500 hover:bg-indigo-600 hover:text-white"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      }`}
+                      >
+                        Stok : {Number(itemRumahMakan.stok) > 0 ? itemRumahMakan.stok : "Habis"}
                       </p>
                     </div>
                     <div className="flex space-x-2">
                     {userRole == "pemilikUsaha" && (
-                      <Link href={`/rumah-makan/${ItemRumahMakan.rumah_makan.id}/menu/${ItemRumahMakan.id}/edit`}>
+                      <Link href={`/rumah-makan/${itemRumahMakan.rumah_makan.id}/menu/${itemRumahMakan.id}/edit`}>
                         <button className="px-4 py-2 text-indigo-500 rounded hover:bg-indigo-600 hover:text-white">
                           Edit
                         </button>
                       </Link>
                     )}
+                    {userRole == "pelanggan" && (
+                      <Link href={`/rumah-makan/${itemRumahMakan.rumah_makan.id}/menu/${itemRumahMakan.id}/pesan`}>
+                      <button className={`px-4 py-2 rounded ${
+                        Number(itemRumahMakan.stok) > 0
+                      ? "text-indigo-500 hover:bg-indigo-600 hover:text-white"
+                      : "bg-gray-300 text-gray-500 cursor-not-allowed"
+                      }`}
+                      disabled={Number(itemRumahMakan.stok) === 0}
+                      >
+                          Pesan
+                        </button>
+                      </Link>
+                    )}
                     {userRole == "pemilikUsaha" && (
                       <button
-                      onClick={() => deleteMenu(ItemRumahMakan.id)}
+                      onClick={() => deleteMenu(itemRumahMakan.id)}
                       className="px-4 py-2 text-indigo-500 rounded hover:bg-indigo-600 hover:text-white"
                       >
                         Hapus dari Daftar

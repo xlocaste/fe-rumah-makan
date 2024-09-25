@@ -10,18 +10,16 @@ const Edit = () => {
   const [alamat, setAlamat] = useState("");
   const [jam_buka, setJamBuka] = useState("");
   const [jam_tutup, setJamTutup] = useState("");
+  const [status, setStatus] = useState("");
   const token = Cookies.get("token");
   const params = useParams();
   const router = useRouter();
 
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-    // eslint-disable-next-line @typescript-eslint/no-unused-expressions
-    axios
-  }, []);
+  }, [token]);
 
   useEffect(() => {
-    // const id = params.id;
     const {id} = params
     if (id) {
       axios
@@ -32,6 +30,7 @@ const Edit = () => {
           setAlamat(rumah_makan.alamat);
           setJamBuka(rumah_makan.jam_buka);
           setJamTutup(rumah_makan.jam_tutup);
+          setStatus(rumah_makan.status);
             })
         .catch((error) => console.error("Error fetching rumah-makan:", error));
     }
@@ -47,6 +46,7 @@ const Edit = () => {
           alamat,
           jam_buka,
           jam_tutup,
+          status,
         });
         alert("update data berhasil");
         router.push("/rumah-makan");
@@ -131,6 +131,22 @@ const Edit = () => {
                 placeholder="Jam Tutup"
                 className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
               />
+            </div>
+            <div>
+              <label className="block text-gray-700 text-sm font-medium mb-1" htmlFor="quantity">Status</label>
+                <select id="status" value={status} onChange={(e => setStatus(e.target.value))}
+                  className="w-full px-4 py-2 border border-gray-300 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 text-black"
+                >
+                <option>
+                  Buka
+                </option>
+                <option>
+                  Tutup
+                </option>
+                <option>
+                  Tutup Sementara
+                </option>
+              </select>
             </div>
             <button
               type="submit"

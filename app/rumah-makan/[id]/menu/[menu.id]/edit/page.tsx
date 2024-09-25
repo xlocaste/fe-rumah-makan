@@ -28,7 +28,7 @@ const Edit = () => {
                 })
             .catch((error) => console.error("Error fetching menu:", error));
           }
-  }, [params]);
+  }, [params, token]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     const id = params.id;

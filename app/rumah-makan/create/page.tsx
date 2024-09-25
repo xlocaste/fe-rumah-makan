@@ -16,7 +16,7 @@ const Create = () => {
 
   useEffect(() => {
     axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-  }, []);
+  }, [token]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
